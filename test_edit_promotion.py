@@ -1,14 +1,15 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait  # ожидания различных событий
-from selenium.webdriver.support.ui import Select  # работа со списками
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.common.action_chains import ActionChains # lля сколинга к нужному элементу импортируем класс ActionChains
+from selenium.webdriver.common.action_chains import ActionChains #
 from random import randint
 import string
 
@@ -19,14 +20,14 @@ class edit_promotion(unittest.TestCase):
 
         list_predloj = []
 
-        for k in range(count_predlojeniy):  # цикл по колву предло;ений
+        for k in range(count_predlojeniy):
             list_slov = []
-            # kolvo_bukv_v_slove = randint(3,5) # генерим ково букв в i-ом  слове
+            # kolvo_bukv_v_slove = randint(3,5)
 
-            for i in range(count_slov):  # цикл по колву слов, будет 5 слов  строке
+            for i in range(count_slov):
 
                 list_bukv = []
-                for j in range(kolvo_bukv_v_slove):  # цикл по буквам в i-ом слове
+                for j in range(kolvo_bukv_v_slove):
 
                     list_bukv.append(' '.join([self.list_characters[randint(0, len(self.list_characters) - 1)]]))
 
@@ -37,15 +38,15 @@ class edit_promotion(unittest.TestCase):
         return str(' '.join(list_predloj))
 
 
-    def my_metho_randem_stroka(self, kolvo_bukv_v_slove, count_slov): # генерит предложение
+    def my_metho_randem_stroka(self, kolvo_bukv_v_slove, count_slov):
 
         list_slov = []
-        # kolvo_bukv_v_slove = randint(3,5) # генерим ково букв в i-ом  слове
+        # kolvo_bukv_v_slove = randint(3,5)
 
-        for i in range(count_slov):  # цикл по колву слов, будет 5 слов  строке
+        for i in range(count_slov):
 
             list_bukv = []
-            for j in range(kolvo_bukv_v_slove):  # цикл по бкувам в i-ом слове
+            for j in range(kolvo_bukv_v_slove):
 
                 list_bukv.append(' '.join([self.list_characters[randint(0, len(self.list_characters) - 1)]]))
 
@@ -56,12 +57,12 @@ class edit_promotion(unittest.TestCase):
 
 
 
-    def generation_tel_phone(self):  # генерит номер телфона
+    def generation_tel_phone(self):
 
         list_digits = []
         for i in range(0, 11):
             if i != 0:
-                # print(string.digits[randint(0,9)]) # 0123456789
+                # print(string.digits[randint(0,9)])
                 list_digits.append(string.digits[randint(1, 9)])
 
         # print(list_digits)
@@ -76,20 +77,19 @@ class edit_promotion(unittest.TestCase):
                            'S', 'T', 'U', 'W', 'X', 'Y', 'Z',
                            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
                            's', 't', 'u', 'w', 'x', 'y', 'z',
-                           '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_',  '.'] # добавить символы !,  ? , *, %, #, $, ~
-
+                           '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '_',  '.']
         list_slov = []
-        # kolvo_bukv_v_slove = randint(3,5) # генерим ково букв в i-ом  слове
+        # kolvo_bukv_v_slove = randint(3,5)
 
-        for i in range(count_slov):  # цикл по колву слов, будет 5 слов  строке
+        for i in range(count_slov):
 
             list_slov = []
-            # kolvo_bukv_v_slove = randint(3,5) # генерим ково букв в i-ом  слове
+            # kolvo_bukv_v_slove = randint(3,5)
 
-            for i in range(count_slov):  # цикл по колву слов, будет 5 слов  строке
+            for i in range(count_slov):
 
                 list_bukv = []
-                for j in range(kolvo_bukv_v_slove):  # цикл по бкувам в i-ом слове
+                for j in range(kolvo_bukv_v_slove):
 
                     list_bukv.append(' '.join([list_characters[randint(0, len(list_characters) - 1)]]))
 
@@ -105,10 +105,10 @@ class edit_promotion(unittest.TestCase):
 
         driver.get("https://admin.preorder.technaxis.com/external/login")
 
-        time.sleep(2)  # чтобы сразу окно не закрывалось
+        time.sleep(2)
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -124,14 +124,16 @@ class edit_promotion(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
 
-        self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
-        self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
+
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
+
+        self.driver.set_window_position(0, 0)
+        self.driver.set_window_size(1440, 900)
 
 
         #self.driver.maximize_window()
-        # self.driver.implicitly_wait(10) # для  явных ожиданий, будет вызываться перед каждвм методом find_element()
+        # self.driver.implicitly_wait(10)
 
         self.list_characters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
                                 'R', 'S',
@@ -139,31 +141,31 @@ class edit_promotion(unittest.TestCase):
                                 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'k', 'm', 'n', 'o', 'p', 'q',
                                 'r', 's',
                                 't', 'u', 'w', 'x', 'y', 'z', 'A'
-                                ' ']  # поле
+                                ' ']
 
 
 
-    def test_edit_promotion_method_(self):  # главный метод, надо чтобы он начинался  с test_
+    def test_edit_promotion_method_(self):
 
         driver = self.driver
-        self.authorizatuion(driver) # меода автризвация
+        self.authorizatuion(driver)
 
 
-        #жмем  в меню на Акцию:
+
         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//a[@href='/superadmin/promotions']"))).click()
 
         time.sleep(2)
 
-        # списк акций
+
         list_promotions = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-row[@class='mat-row']")))
 
 
-        # жмем рандомную акцию:
-        list_promotions[randint(0, len(list_promotions)-1)].click() # выбираем рандомную акцию и жмем на нее
+
+        list_promotions[randint(0, len(list_promotions)-1)].click()
         time.sleep(2)
 
 
-        # жме мна кнопку крестик у фото
+
         #WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//*[@id='portal-classic-content']/app-super-promotion-view/app-promotion-view/div/mat-card/mat-card-content/div[1]/form/div[1]/app-gallery-picker/div/div[1]/button"))).click()
         #time.sleep(2)
 
@@ -179,35 +181,35 @@ class edit_promotion(unittest.TestCase):
 
 
         name_promotion = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Название акции']")))
-        name_promotion.clear()# чистим поле сперва
+        name_promotion.clear()
         name_promotion.send_keys(self.my_metho_randem_stroka(randint(4, 7), 3))
         time.sleep(2)
 
 
 
 
-        text_promotion = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//div[@data-placeholder ='Текст акции...']")))
+        text_promotion = WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//textarea[@placeholder ='Описание акции']")))
         text_promotion.clear()
         text_promotion.send_keys(self.my_metho_randem_stroka(randint(5,10), randint(3, 5)))
         time.sleep(2)
 
-        # выбиоаем дату начала действия акции:
+
         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='От']"))).click()
         time.sleep(2)
 
-        # спсиок дат начала
+
         list_dates_from = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
 
         list_dates_from[randint(0, len(list_dates_from )-1)].click()
 
         time.sleep(2)
 
-        # выбиоаем дату конца действия акции:
+
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@placeholder='До']"))).click()
         time.sleep(2)
 
-        # спсиок дат конца
+
         list_dates_to = WebDriverWait(driver, 10).until(
             ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
 
@@ -215,7 +217,7 @@ class edit_promotion(unittest.TestCase):
 
         time.sleep(2)
 
-        # кнопка  Сохранить
+
         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='mat-button mat-flat-button']"))).click()
 
 
@@ -229,7 +231,7 @@ class edit_promotion(unittest.TestCase):
     def tear_down(self):
         time.sleep(5)
         self.driver.quit()
-        #self.driver.close() #  закрываем браузер
+        #self.driver.close()
         # pass
 
 

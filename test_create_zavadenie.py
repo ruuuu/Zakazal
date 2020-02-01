@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -108,7 +109,7 @@ class create_zavadenie(unittest.TestCase):
         time.sleep(2)  # чтобы сразу окно не закрывалось
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -123,7 +124,7 @@ class create_zavadenie(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()  #Firefox()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')  #Firefox()
 
         #self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна, в сафари не работет
@@ -153,7 +154,7 @@ class create_zavadenie(unittest.TestCase):
         #кнпока Добавить заведение:
         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='header-action-button mat-flat-button mat-primary ng-star-inserted']"))).click()
 
-        time.sleep(1)
+        time.sleep(5)
 
         # #  жмемна спсиок выбора города:
         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//div[@class='mat-select-value']"))).click()
@@ -171,7 +172,7 @@ class create_zavadenie(unittest.TestCase):
 
         time.sleep(1)
 
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Идентификатор магазина']"))).send_keys("45279fdf-eed9-4c4d-89d2-b46a40f18496")
+        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Идентификатор магазина']"))).send_keys("ujezakazal")
 
 
 
@@ -260,7 +261,7 @@ class create_zavadenie(unittest.TestCase):
 
 
 
-        #чекбоксы Формат заведения(пАр, бизнес -ланчи)Э
+        #чекбоксы Формат заведения(пАр, бизнес -ланчи)
         rand_index = randint(0, 1) #   выберет рандомно Пар(0) или Бизнес-ланчи(1)
         print("rand_index_of_format_zavedenia", rand_index) # рандомный индекс формата завеения
 
@@ -365,8 +366,8 @@ class create_zavadenie(unittest.TestCase):
 
 
 
-        if rand_index ==1: # если выбрали  Бизнес-линчи
-            # Заолнение графика работы
+        if rand_index ==1: # если выбрали  Бизнес-ланчи
+            # Заполнение графика работы
             for i in range(0, 4):
 
 
@@ -480,7 +481,7 @@ class create_zavadenie(unittest.TestCase):
 
         # краткое описание
         short_description = WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, "//div[@data-placeholder='Краткое описание заведения...']")))
+            ec.presence_of_element_located((By.XPATH, "//textarea[@formcontrolname='description']")))
 
         driver.execute_script("arguments[0].scrollIntoView(true);", short_description)  # скроллим  к этому заведению
         time.sleep(2)

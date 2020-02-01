@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -8,11 +9,11 @@ from selenium.webdriver.support.ui import WebDriverWait  # ожидания ра
 from selenium.webdriver.support.ui import Select  # работа со списками
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from selenium.webdriver.common.action_chains import ActionChains # lля сколддинга к нужному элементу импортируем класс ActionChains
+from selenium.webdriver.common.action_chains import ActionChains # lля сколинга к нужному элементу импортируем класс ActionChains
 from random import randint
 import string
 
-class feedbacks_zavadenie(unittest.TestCase):
+class Users_superadmin(unittest.TestCase):
 
 
     def my_metho_with_predlojenie(self, kolvo_bukv_v_slove, count_slov, count_predlojeniy):
@@ -26,7 +27,7 @@ class feedbacks_zavadenie(unittest.TestCase):
             for i in range(count_slov):  # цикл по колву слов, будет 5 слов  строке
 
                 list_bukv = []
-                for j in range(kolvo_bukv_v_slove):  # цикл по бкувам в i-ом слове
+                for j in range(kolvo_bukv_v_slove):  # цикл по буквам в i-ом слове
 
                     list_bukv.append(' '.join([self.list_characters[randint(0, len(self.list_characters) - 1)]]))
 
@@ -101,48 +102,27 @@ class feedbacks_zavadenie(unittest.TestCase):
         return str(' '.join(list_slov)) + for_email[randint(0, len(for_email)-1)]
 
 
-    def authorization(self, driver):
+    def authorizatuion(self, driver):
 
         driver.get("https://admin.preorder.technaxis.com/external/login")
 
         time.sleep(2)  # чтобы сразу окно не закрывалось
-
-        # авторизация
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "doge@doge.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='password']"))).send_keys("12341234")
+            ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='password']"))).send_keys("password")
 
         time.sleep(2)
 
         WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//button[@type='button']")))[
             1].click()
 
-
-    def filter_on_page_zavadeniy(self, driver): # фильтрация
-
-        # жме мна списко Статус заказа
-        WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
-        time.sleep(2)
+        time.sleep(5)
 
 
-        for i in range(0, 4):
-
-            # список пунктов из списка
-            list_of_statuses = WebDriverWait(driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
-
-            list_of_statuses[randint(0, len(list_of_statuses)-1)].click()# выбрает рандомый индекс и кликает
-            time.sleep(2)
-
-            WebDriverWait(driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
-
-        # жмем пункт Все
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted mat-active']"))).click()
 
 
 
@@ -153,9 +133,9 @@ class feedbacks_zavadenie(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
 
-        self.driver.set_window_position(0, 0)  # устанавливает позицию левого вурзнего угла окна браузера
+        self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
 
 
@@ -172,36 +152,76 @@ class feedbacks_zavadenie(unittest.TestCase):
 
 
 
-
-
-
-
-
-
-    def test_feedback_zavedenie_method_(self):  # главный метод, надо чтобы он начинался  с test_
+    def test_users_superadmin_method(self):  # главный метод, надо чтобы он начинался  с test_
 
         driver = self.driver
-
-        self.authorization(driver)
-
-        time.sleep(2)
-
-        # жмем на  разедл Заказы  в меню
-        WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH,  "//a[@href='/place/orders']"))).click()
-
-        time.sleep(6)
-
-        self.filter_on_page_zavadeniy(driver)# вызов метода
+        self.authorizatuion(driver) # меода автризвация
 
 
-        time.sleep(2)
+        #жмем  в меню на  Пользователи:
+        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//a[@href='/superadmin/users']"))).click()
+
+        time.sleep(4)
+        # for i in range(0,2): # сортировка по id
+        #     time.sleep(3)
+        #
+        #     WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for id']"))).click()
+        #
+        #
+        # for i in range(0, 2):  # сортировка по ФИО
+        #     time.sleep(3)
+        #
+        #     WebDriverWait(driver, 10).until(
+        #         ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for name']"))).click()
+        #
+        # for i in range(0, 2):  # сортировка по Дата регистрации
+        #     time.sleep(3)
+        #
+        #     WebDriverWait(driver, 10).until(
+        #         ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for registerDate']"))).click()
+        #
+        #
+        # for i in range(0, 2):  # сортировка по бонкусам
+        #
+        #     WebDriverWait(driver, 10).until(
+        #         ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for bonuses']"))).click()
+        #
+        # time.sleep(3)
+
+
+        for i in range(0, 5):
+            # список всех имен
+            list_of_names = WebDriverWait(driver, 10).until(
+                ec.presence_of_all_elements_located(
+                    (By.XPATH, "//mat-cell[@class='mat-cell cdk-column-name mat-column-name ng-star-inserted']")))
+
+            name = list_of_names[randint(0, randint(0, len(list_of_names)-1))].text  # берем имя сохранеям егов  переменную
+
+
+            poisk = WebDriverWait(driver, 10).until(
+                ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Поиск']")))
+
+            poisk.send_keys(name)
+            time.sleep(2)
+
+            poisk.clear()
+
+            poisk.send_keys(Keys.CLEAR)
+
+            self.driver.refresh()  # перезугружаем страницу
+            time.sleep(2)
+
+
+
+
+
 
 
 
     def tear_down(self):
         time.sleep(5)
         self.driver.quit()
+        #self.driver.close() #  закрываем браузер
         # pass
 
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -108,7 +109,7 @@ class create_promotion(unittest.TestCase):
         time.sleep(2)  # чтобы сразу окно не закрывалось
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -124,21 +125,47 @@ class create_promotion(unittest.TestCase):
 
     def poisk(self, driver):# поиск по названию акции
 
-        # поле по названию
-        search_field = WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Поиск по названию']")))
+
 
         # список названий акций
         list_names_of_promotions = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//div[@class='name']")))
+        print("list_names_of_promotions equal", list_names_of_promotions)
 
 
+        for i in range(0, 6): # поиск по названию
+            # поле по названию
+            search_field = WebDriverWait(driver, 10).until(
+                ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Поиск по названию']")))
 
-        for i in range(0, 6):
-            search_field.send_keys(
-                list_names_of_promotions[randint(0, len(list_names_of_promotions) - 1)].text)  # берем любой  hall и иполучаем его название
+            time.sleep(5)
+            search_field.send_keys(list_names_of_promotions[randint(0, len(list_names_of_promotions) - 1)].text)  # берем любую  акцию. и иполучаем его название
             time.sleep(2)
 
             driver.refresh()# перезагружаем страницу
+
+
+        time.sleep(5)
+
+
+
+        #  упорядочинваие по возрастанию/убыванию
+
+        for i in range(0, 2):# сортировка по названию
+            time.sleep(3)
+            WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,  "//button[@aria-label='Change sorting for name']"))).click()
+
+        for i in range(0, 2):  # сортировка  по От
+            time.sleep(3)
+            WebDriverWait(driver, 10).until(
+                ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for from']"))).click()
+
+        for i in range(0, 2):  # сортировка  по До
+            time.sleep(3)
+            WebDriverWait(driver, 10).until(
+                ec.presence_of_element_located((By.XPATH, "//button[@aria-label='Change sorting for to']"))).click()
+
+
+
 
 
 
@@ -149,7 +176,7 @@ class create_promotion(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
 
         self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
@@ -179,55 +206,61 @@ class create_promotion(unittest.TestCase):
 
         time.sleep(2)
 
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,"//button[@class='header-action-button mat-flat-button mat-primary ng-star-inserted']"))).click() # копка Добавить
-        time.sleep(2)
-
-
-        file_dicitionary = {0: "/Users/rufina/Desktop/dishs/BjJ6inaYiWam0GGViLFHLQ-double.jpg",
-                            1: "/Users/rufina/Desktop/dishs/4Rve51WmWfk.jpg", 2: "/Users/rufina/Desktop/dishs/2531.jpg",
-                            3: "/Users/rufina/Desktop/dishs/salat_kinoa.jpg__1499258543__50030.jpg",
-                            4: "/Users/rufina/Desktop/dishs/4703.jpg", 5: "/Users/rufina/Desktop/dishs/caption (1).jpg"}
-
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@type='file']"))).send_keys(file_dicitionary[randint(0, len(file_dicitionary) - 1)])
-        time.sleep(2)
-
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Название акции']"))).send_keys(self.my_metho_randem_stroka(randint(4, 7), 3))
-        time.sleep(2)
-
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//div[@data-placeholder ='Текст акции...']"))).send_keys(self.my_metho_randem_stroka(randint(5,10), randint(3, 5)))
-        time.sleep(2)
-
-        # выбиоаем дату начала действия акции:
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='От']"))).click()
-        time.sleep(2)
-
-        # спсиок дат начала
-        list_dates_from = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
-
-        list_dates_from[randint(0, len(list_dates_from )-1)].click()
-
-        time.sleep(2)
-
-        # выбиоаем дату конца действия акции:
-        WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, "//input[@placeholder='До']"))).click()
-        time.sleep(2)
-
-        # спсиок дат конца
-        list_dates_to = WebDriverWait(driver, 10).until(
-            ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
-
-        list_dates_to[randint(0, len(list_dates_to) - 1)].click()
-
-        time.sleep(2)
-
-        # кнопка Добаить
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='mat-button mat-flat-button']"))).click()
-
-        time.sleep(2)
-
-        # стрелка Назад
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='back-btn mat-icon-button ng-star-inserted']"))).click()
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,"//button[@class='header-action-button mat-flat-button mat-primary ng-star-inserted']"))).click() # копка Добавить
+        # time.sleep(2)
+        #
+        #
+        # file_dicitionary = {0: "/Users/rufina/Desktop/dishs/BjJ6inaYiWam0GGViLFHLQ-double.jpg",
+        #                     1: "/Users/rufina/Desktop/dishs/4Rve51WmWfk.jpg", 2: "/Users/rufina/Desktop/dishs/2531.jpg",
+        #                     3: "/Users/rufina/Desktop/dishs/salat_kinoa.jpg__1499258543__50030.jpg",
+        #                     4: "/Users/rufina/Desktop/dishs/4703.jpg", 5: "/Users/rufina/Desktop/dishs/caption (1).jpg"}
+        #
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@type='file']"))).send_keys(file_dicitionary[randint(0, len(file_dicitionary) - 1)])
+        # time.sleep(2)
+        #
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='Название акции']"))).send_keys(self.my_metho_randem_stroka(randint(4, 7), 3))
+        # time.sleep(2)
+        #
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//textarea[@formcontrolname ='text']"))).send_keys(self.my_metho_randem_stroka(randint(5,10), randint(3, 5)))
+        # time.sleep(2)
+        #
+        # # выбиоаем дату начала действия акции:
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='От']"))).click()
+        # time.sleep(2)
+        #
+        # # спсиок дат начала
+        # list_dates_from = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
+        #
+        # list_dates_from[randint(0, len(list_dates_from )-1)].click()
+        #
+        # time.sleep(2)
+        #
+        # # выбиоаем дату конца действия акции:
+        # WebDriverWait(driver, 10).until(
+        #     ec.presence_of_element_located((By.XPATH, "//input[@placeholder='До']"))).click()
+        # time.sleep(2)
+        #
+        # # спсиок дат конца
+        # list_dates_to = WebDriverWait(driver, 10).until(
+        #     ec.presence_of_all_elements_located((By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))
+        #
+        # list_dates_to[randint(0, len(list_dates_to) - 1)].click()
+        #
+        # time.sleep(2)
+        #
+        # #зеленая  кнопка Добаить
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='mat-button mat-flat-button']"))).click()
+        #
+        # time.sleep(2)
+        #
+        # # оранжевая кнопка Добавить в попапе
+        # WebDriverWait(driver, 10).until(
+        #     ec.presence_of_element_located((By.XPATH, "//button[@class='mat-button mat-primary fullWidth mat-flat-button']"))).click()
+        #
+        # time.sleep(6)
+        #
+        # # стрелка Назад
+        # WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//button[@class='back-btn mat-icon-button ng-star-inserted']"))).click()
 
         time.sleep(2)
         self.poisk(driver)# вызов метода поиска

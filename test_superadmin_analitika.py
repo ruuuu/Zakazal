@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -108,7 +109,7 @@ class Analitika_superadmin(unittest.TestCase):
         time.sleep(2)  # чтобы сразу окно не закрывалось
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -142,7 +143,7 @@ class Analitika_superadmin(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')#Firefox()
 
         self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
@@ -174,100 +175,128 @@ class Analitika_superadmin(unittest.TestCase):
 
 
 
-        for i in range(0, 3):
-            # жмем на выбор города
-            WebDriverWait(driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
-            time.sleep(2)
-            # список городов
-            list_towns = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
-            list_towns[randint(0,len(list_towns)-1)].click() # выбирете любой индекс из спсика
+        for i in range(0, 5):
 
-            time.sleep(2)
+            if i == 4: # если итерация последняя то жмет на Все
+
+                # жмем на выбор города(маленький треугольничек)
+                WebDriverWait(driver, 10).until(
+                    ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
+                time.sleep(2)
+                # список городов
+                list_towns = WebDriverWait(driver, 10).until(
+                    ec.presence_of_all_elements_located(
+                        (By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
 
 
-        driver.refresh() # перезагужае  страницу
+                time.sleep(2)
+                list_towns[0].click() # жмет на Все
+
+            else:
+                # жмем на выбор города(маленький треугольничек)
+                WebDriverWait(driver, 10).until(
+                    ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
+                time.sleep(2)
+                # список городов
+                list_towns = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
+                list_towns[randint(0, len(list_towns)-1)].click() # выбирете любой индекс из спсика
+
+                time.sleep(2)
+
+
+        #driver.refresh() # перезагужае  страницу
+
+
         time.sleep(3)
-        #list_towns[0].click() # жмет на Все
+
 
         for i in range(0, 7):
-            # жмем на выбор заведения
-            WebDriverWait(driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[1].click()
-            time.sleep(2)
-            # список заведений
-            list_companies = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
-            list_companies[randint(0,len(list_companies)-1)].click() # выбирете любой индекс из спсика
 
-            time.sleep(2)
-
-        driver.refresh()  # перезагужае  страницу
-
-
-        for i in range(0, 3):
-            # жмем на выбор города
-            WebDriverWait(driver, 10).until(
-                ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
-            time.sleep(2)
-            # список городов
-            list_towns = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
-            list_towns[randint(0,len(list_towns)-1)].click() # выбирете любой индекс из спсика
-
-            time.sleep(2)
-
-            for j in range(0, 4):
-                # жмем на выбор заведения
+            if i == 6: # если итерация последняя
+                # жмем на выбор заведения(маленький треугольничек)
                 WebDriverWait(driver, 10).until(
                     ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[1].click()
                 time.sleep(2)
                 # список заведений
                 list_companies = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
                     (By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
-                list_companies[randint(0, len(list_companies) - 1)].click()  # выбирете любой индекс из спсика
+                list_companies[0].click()  # жмем на Все
+
+            else:
+                # жмем на выбор заведения(маленький треугольничек)
+                WebDriverWait(driver, 10).until(
+                    ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[1].click()
+                time.sleep(2)
+                # список заведений
+                list_companies = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
+                list_companies[randint(0,len(list_companies)-1)].click() # выбирете любой индекс из спсика
 
                 time.sleep(2)
+        #
+        # #driver.refresh()  # перезагужае  страницу
+        #
+        # time.sleep(2)
+        # for i in range(0, 3):
+        #     # жмем на выбор города
+        #     WebDriverWait(driver, 10).until(
+        #         ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[0].click()
+        #     time.sleep(2)
+        #     # список городов
+        #     list_towns = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
+        #     list_towns[randint(0,len(list_towns)-1)].click() # выбирете любой индекс из спсика
+        #
+        #     time.sleep(2)
+        #
+        #     for j in range(0, 4):
+        #         # жмем на выбор заведения
+        #         WebDriverWait(driver, 10).until(
+        #             ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[1].click()
+        #         time.sleep(2)
+        #         # список заведений
+        #         list_companies = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
+        #             (By.XPATH, "//mat-option[@class='mat-option ng-star-inserted']")))
+        #         list_companies[randint(0, len(list_companies) - 1)].click()  # выбирете любой индекс из спсика
+        #
+        #         time.sleep(2)
+        #
+        # driver.refresh()  # перезагужае  страницу
+        #
+        # self.sortirovka(driver)# вызов метода сортировки
 
-        driver.refresh()  # перезагужае  страницу
-
-        self.sortirovka(driver)
-
-        # кнопка кретсик у певрйо  даты
-        WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located((By.XPATH,  "//mat-icon[@class='mat-icon notranslate material-icons mat-icon-no-color']")))[1].click()
-        time.sleep(2)
-
-        # кнопка крестик у второй   даты
-        WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
-            (By.XPATH, "//mat-icon[@class='mat-icon notranslate material-icons mat-icon-no-color']")))[1].click()
-        time.sleep(2)
-
-        # Показать за период:
-        WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH, "//input[@placeholder='От']"))).click()
-        time.sleep(2)
-
-        list_from_date = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
-                     (By.XPATH,  "//td[@class='available']")))# спсиок дат От
-
-        list_from_date[randint(0 ,len(list_from_date)-1)].click() # бере рандомный индекс даты(начала)
-
-        time.sleep(2)
-
-
-
-        list_to_date = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
-            (By.XPATH, "//td[@class='available']")))# список дат До
-
-        WebDriverWait(driver, 10).until(
-            ec.presence_of_element_located((By.XPATH, "//input[@placeholder='До']"))).click()
-        list_to_date[randint(0, len(list_to_date) - 1)].click()  # бере рандомный индекс даты(конца)
-
-        time.sleep(5)
+        # for i in range(0, 3):
+        #         time.sleep(2)
+        #         # Жмем на первую дату
+        #         WebDriverWait(driver, 10).until(ec.presence_of_element_located((By.XPATH,  "//input[@placeholder='От']"))).click()
+        #         time.sleep(2)
+        #
+        #         list_from_date = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
+        #                      (By.XPATH,  "//td[@class='mat-calendar-body-cell ng-star-inserted']")))# спсиок дат От
+        #
+        #         list_from_date[randint(0, len(list_from_date)-1)].click() # бере рандомный индекс даты(начала)
+        #         time.sleep(2)
+        #
+        #
+        #
+        #
+        #         # Жмем на вторую дату
+        #         WebDriverWait(driver, 10).until(
+        #             ec.presence_of_element_located((By.XPATH, "//input[@placeholder='До']"))).click()
+        #         time.sleep(2)
+        #
+        #         list_to_date = WebDriverWait(driver, 10).until(ec.presence_of_all_elements_located(
+        #             (By.XPATH, "//td[@class='mat-calendar-body-cell ng-star-inserted']")))# список дат До
+        #
+        #
+        #         list_to_date[randint(0, len(list_to_date) - 1)].click()  # бере рандомный индекс даты(конца)
+        #
+        # time.sleep(5)
 
 
 
     def tear_down(self):
         time.sleep(5)
-        self.driver.quit()
-        #self.driver.close() #  закрываем браузер
+        #self.driver.quit()
+        self.driver.close() #  закрываем браузер
         # pass
 
 

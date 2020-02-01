@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -106,7 +107,7 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
 
         #self.driver.set_window_position(0, 0)  # устанавливает позицию левого вурзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
@@ -144,8 +145,8 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
 
 
 
-            # жмем на галочку
-            WebDriverWait(self.driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//div[@class='mat-select-arrow']")))[1].click()
+            # жмем  снова на галочку
+            WebDriverWait(self.driver, 10).until(ec.presence_of_all_elements_located((By.XPATH, "//div[@class='mat-select-arrow']")))[0].click()
 
             time.sleep(2)
 
@@ -158,7 +159,10 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
             time.sleep(2)
 
             #self.driver.refresh() # перезагружает  текущую станицу
-
+            #self.driver.back()  # возвращает предыдущую странцу
+            # жмем  снова на галочку
+            WebDriverWait(self.driver, 10).until(
+                ec.presence_of_all_elements_located((By.XPATH, "//div[@class='mat-select-arrow']")))[0].click()
 
 
 
@@ -166,16 +170,19 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
 
         for i in range(0,2): # фильтр по формату заведения
 
-                #  жмем на Формта заведения
+                #  жмем на поле  Формта заведения
                 WebDriverWait(self.driver, 10).until(
                     ec.presence_of_all_elements_located((By.XPATH, "//mat-select[@role='listbox']")))[1].click()
                 time.sleep(2)
 
-                WebDriverWait(self.driver, 10).until(
-                     ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@role='option']")))[randint(1, 2)].click() # вбирам раномный пунккт
+                list_of_formats =  WebDriverWait(self.driver, 10).until(
+                     ec.presence_of_all_elements_located((By.XPATH, "//mat-option[@role='option']"))) # список форматов
+
+                list_of_formats[randint(0, len(list_of_formats)-1)].click() # вбирам раномный  индекс  пунккта
 
                 time.sleep(2)
-                self.driver.refresh()  # перезагружает  текущую станицу
+
+                #self.driver.refresh()  # перезагружает  текущую станицу
 
                 time.sleep(2)
 
@@ -199,8 +206,10 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
             search_field.clear()
 
             search_field.send_keys(Keys.CLEAR)
-
-            self.driver.refresh() # перезугружаем страницу
+            time.sleep(2)
+            #search_field.send_keys(Keys.ENTER)
+            self.driver.back() # возвращает предыдущую странцу
+            #self.driver.refresh() # перезугружаем страницу
             time.sleep(2)
 
 
@@ -220,7 +229,7 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
         # авторизация
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -242,7 +251,8 @@ class creatFilter_poisk_zavadenie(unittest.TestCase):
 
     def tear_down(self):
         time.sleep(5)
-        self.driver.quit()
+        #self.driver.quit()
+        self.driver.close() # закрывает окно браузера
         # pass
 
 

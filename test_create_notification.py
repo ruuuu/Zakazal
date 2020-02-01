@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import unittest
 import selenium
@@ -108,7 +109,7 @@ class create_notification(unittest.TestCase):
         time.sleep(2)  # чтобы сразу окно не закрывалось
         WebDriverWait(driver, 10).until(
             ec.presence_of_element_located((By.XPATH, "//input[@formcontrolname='login']"))).send_keys(
-            "superadmin@mail.ru")
+            "admin@ujezakazal.ru")
 
         time.sleep(2)
         WebDriverWait(driver, 10).until(
@@ -124,7 +125,7 @@ class create_notification(unittest.TestCase):
 
 
     def setUp(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Chrome('/usr/local/bin/chromedriver')
 
         self.driver.set_window_position(0, 0)  # устанавливает позицию левого верзнего угла окна браузера
         self.driver.set_window_size(1440, 900)  # устанавливае мразмеры окна
